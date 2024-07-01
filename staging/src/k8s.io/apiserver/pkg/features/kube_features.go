@@ -53,6 +53,13 @@ const (
 	// caching with ETags containing all APIResources known to the apiserver.
 	AggregatedDiscoveryEndpoint featuregate.Feature = "AggregatedDiscoveryEndpoint"
 
+	// owner: @vinayakankugoyal
+	// kep: https://kep.k8s.io/4633
+	// alpha: v1.31
+	//
+	// Allows us to enable anonymous auth for only certain apiserver endpoints.
+	AnonymousAuthConfigurableEndpoints featuregate.Feature = "AnonymousAuthConfigurableEndpoints"
+
 	// owner: @smarterclayton
 	// alpha: v1.8
 	// beta: v1.9
@@ -298,6 +305,7 @@ const (
 
 	// owner: @p0lyn0mial
 	// alpha: v1.27
+	// beta: v1.31
 	//
 	// Allow the API server to stream individual items instead of chunking
 	WatchList featuregate.Feature = "WatchList"
@@ -339,6 +347,8 @@ var defaultVersionedKubernetesFeatureGates = map[featuregate.Feature]featuregate
 // To add a new feature, define a key for it above and add it here. The features will be
 // available throughout Kubernetes binaries.
 var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureSpec{
+
+	AnonymousAuthConfigurableEndpoints: {Default: false, PreRelease: featuregate.Alpha},
 
 	AggregatedDiscoveryEndpoint: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.33
 
@@ -402,7 +412,7 @@ var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureS
 
 	InPlacePodVerticalScaling: {Default: false, PreRelease: featuregate.Alpha},
 
-	WatchList: {Default: false, PreRelease: featuregate.Alpha},
+	WatchList: {Default: true, PreRelease: featuregate.Beta},
 
 	ConsistentListFromCache: {Default: true, PreRelease: featuregate.Beta},
 

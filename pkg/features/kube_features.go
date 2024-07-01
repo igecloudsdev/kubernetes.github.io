@@ -178,6 +178,14 @@ const (
 	// Add support for CDI Device IDs in the Device Plugin API.
 	DevicePluginCDIDevices featuregate.Feature = "DevicePluginCDIDevices"
 
+	// owner: @aojea
+	// alpha: v1.31
+	//
+	// The apiservers with the MultiCIDRServiceAllocator feature enable, in order to support live migration from the old bitmap ClusterIP
+	// allocators to the new IPAddress allocators introduced by the MultiCIDRServiceAllocator feature, performs a dual-write on
+	// both allocators. This feature gate disables the dual write on the new Cluster IP allocators.
+	DisableAllocatorDualWrite featuregate.Feature = "DisableAllocatorDualWrite"
+
 	// owner: @andrewsykim
 	// alpha: v1.22
 	// beta: v1.29
@@ -476,6 +484,7 @@ const (
 	// owner: @aojea
 	// kep: https://kep.k8s.io/1880
 	// alpha: v1.27
+	// beta: v1.31
 	//
 	// Enables the dynamic configuration of Service IP ranges
 	MultiCIDRServiceAllocator featuregate.Feature = "MultiCIDRServiceAllocator"
@@ -933,6 +942,7 @@ const (
 	// owner: @AkihiroSuda
 	// kep: https://kep.k8s.io/3857
 	// alpha: v1.30
+	// beta: v1.31
 	//
 	// Allows recursive read-only mounts.
 	RecursiveReadOnlyMounts featuregate.Feature = "RecursiveReadOnlyMounts"
@@ -1001,6 +1011,8 @@ var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureS
 	ContainerCheckpoint: {Default: true, PreRelease: featuregate.Beta},
 
 	CronJobsScheduledAnnotation: {Default: true, PreRelease: featuregate.Beta},
+
+	DisableAllocatorDualWrite: {Default: false, PreRelease: featuregate.Alpha}, // remove after MultiCIDRServiceAllocator is GA
 
 	DisableCloudProviders: {Default: true, PreRelease: featuregate.GA, LockToDefault: true},
 
@@ -1084,7 +1096,7 @@ var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureS
 
 	MinDomainsInPodTopologySpread: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.32
 
-	MultiCIDRServiceAllocator: {Default: false, PreRelease: featuregate.Alpha},
+	MultiCIDRServiceAllocator: {Default: false, PreRelease: featuregate.Beta},
 
 	NewVolumeManagerReconstruction: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.32
 
@@ -1205,6 +1217,8 @@ var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureS
 
 	genericfeatures.AggregatedDiscoveryEndpoint: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.33
 
+	genericfeatures.AnonymousAuthConfigurableEndpoints: {Default: false, PreRelease: featuregate.Alpha},
+
 	genericfeatures.APIListChunking: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.32
 
 	genericfeatures.APIPriorityAndFairness: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.31
@@ -1263,7 +1277,7 @@ var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureS
 
 	genericfeatures.WatchFromStorageWithoutResourceVersion: {Default: false, PreRelease: featuregate.Beta},
 
-	genericfeatures.WatchList: {Default: false, PreRelease: featuregate.Alpha},
+	genericfeatures.WatchList: {Default: true, PreRelease: featuregate.Beta},
 
 	genericfeatures.ZeroLimitedNominalConcurrencyShares: {Default: true, PreRelease: featuregate.GA, LockToDefault: true}, // remove in 1.32
 
@@ -1280,5 +1294,5 @@ var defaultKubernetesFeatureGates = map[featuregate.Feature]featuregate.FeatureS
 
 	StorageNamespaceIndex: {Default: true, PreRelease: featuregate.Beta},
 
-	RecursiveReadOnlyMounts: {Default: false, PreRelease: featuregate.Alpha},
+	RecursiveReadOnlyMounts: {Default: true, PreRelease: featuregate.Beta},
 }
